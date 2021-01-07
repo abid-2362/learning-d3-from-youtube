@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Learning D3 JS Library</title>
+  <style>
+    /* .bar-chart {
+      background-color: #93deff;
+    } */
+    .svg-container {
+      background-color: #93deff;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Creating a Pie Chart with D3.js</h1>
+  <svg class="pie-chart"></svg>
+
+  <div style="margin-top: 1500px;"></div>
+  <script src="./js/d3.min.js"></script>
+  <script>
+    var data = [
+      {"platform": "Android", "percentage": 40.11},
+      {"platform": "Windows", "percentage": 36.69},
+      {"platform": "iOS", "percentage": 13.06},
+    ];
+
+    var svgWidth = 500, svgHeight = 300,
+        radius = Math.min(svgWidth, svgHeight) / 2;
+    var svg = d3.select('svg')
+      .attr("width", svgWidth)
+      .attr("height", svgHeight);
+
+    var g = svg.append("g")
+      .attr("tranform", `translate(${radius}, ${radius})`);
+
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
+  </script>
+</body>
+
+</html>

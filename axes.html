@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Learning D3 JS Library</title>
+  <style>
+    .bar-chart {
+      background-color: #93deff;
+      /* border: 1px solid red; */
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Bar Chart Using D3.JS</h1>
+  <svg class="bar-chart"></svg>
+
+  <div style="margin-top: 1500px;"></div>
+  <script src="./js/d3.min.js"></script>
+  <script>
+    var dataset = [80, 100, 56, 120, 180, 30, 40, 120, 160];
+    // var dataset = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    var svgWidth = 500, svgHeight = 300, barPadding = 5;
+    var origin = 30;
+    var barWidth = (svgWidth / dataset.length) - (origin/dataset.length);
+
+    var svg = d3.select('svg')
+      .attr('width', svgWidth)
+      .attr('height', svgHeight);
+
+    var yScale = d3.scaleLinear()
+      .domain([0, d3.max(dataset)])
+      // .range([0, svgHeight]);
+      .range([svgHeight, 0]);
+
+    var xScale = d3.scaleLinear()
+      .domain([0, d3.max(dataset)])
+      .range([0, svgWidth]);
+
+//*
+    var barChart = svg.selectAll("rect")
+      .data(dataset)
+      .enter()
+      .append("rect")
+      .attr("y", function (d) {
+        // return svgHeight - yScale(d);
+        return svgHeight - yScale(d) - origin;
+      })
+      .attr("height", function (d) {
+        return yScale(d);
+      })
+      .attr("width", barWidth - barPadding)
+      .attr("transform", function (d, i) {
+        var translate = [(barWidth * i) + origin, 0];
+        return "translate(" + translate + ")";
+      });
+
+    var text = svg.selectAll("text")
+      .data(dataset)
+      .enter()
+      .append("text")
+      .text(d => d)
+      .attr("y", (d, i) => (svgHeight - d - 2))
+      .attr("x", (d, i) => (barWidth * i))
+      .attr("fill", "#A64c38");
+//*/
+
+    var x_axis = d3.axisBottom()
+      .scale(xScale);
+
+    var y_axis = d3.axisLeft()
+      .scale(yScale);
+
+    svg.append("g")
+      .attr("transform", `translate(${origin}, 0)`)
+      // .attr("fill", "#fff")
+      .attr("stroke", "#fff")
+      .call(y_axis);
+    var xAxisTranslate = svgHeight - origin;
+    svg.append("g")
+      .attr("transform", `translate(30, ${xAxisTranslate})`)
+      .attr("stroke", "#fff")
+      .call(x_axis);
+  </script>
+</body>
+
+</html>
